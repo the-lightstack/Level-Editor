@@ -90,7 +90,7 @@ def working_application():
             le.check_click_add(event)
     var=Var()
 
-    le=Level_Editor(30,30,var)
+    le=Level_Editor(50,50,var)
 
     while var.app_running:
         clock.tick(FPS)

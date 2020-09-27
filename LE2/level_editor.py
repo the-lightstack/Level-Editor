@@ -6,14 +6,14 @@ class Level_Editor:
         self.columns=columns
         self.var=var
 
-        self.box_width=self.var.WINDOWWIDTH/self.columns
-        self.box_height=self.var.WINDOWHEIGHT/self.rows
+        self.box_width=int(self.var.WINDOWWIDTH/self.columns)
+        self.box_height=int(self.var.WINDOWHEIGHT/self.rows)
         
         #self.available_colors={0:(60,100,255),1:(40,40,240),2:(200,200,200),3:(200,40,40),4:(200,200,100),5:(100,40,170),6:(30,50,70),7:(100,100,100),8:(10,12,76),9:(90,21,200),10:(34,74,81),11:(10,200,130)}
         img=pygame.image.load
         self.tiles=[i for i in self.get_sprite_sheet((32,32),"./tiles/world_sprite_sheet.png")]
         self.tiles.append(self.get_sprite_sheet((32,32),"./tiles/bush_animation_sprites.png")[0])
-        
+        self.tiles=[pygame.transform.scale(i,(self.box_width,self.box_height)) for i in self.tiles]
         self.current_tile_index=0
         self.amount_thicknesses=3
         self.grid_color=(50,50,50)
@@ -31,10 +31,10 @@ class Level_Editor:
             if event.key==pygame.K_SPACE:
                 if self.current_tile_index==len(self.tiles)-1:
                     self.current_tile_index=0
-                    print(self.current_tile_index) 
+                    #print(self.current_tile_index) 
                 else:
                     self.current_tile_index+=1
-                    print(self.current_tile_index)
+                    #print(self.current_tile_index)
             elif event.key==pygame.K_s:
                 self.save_map()
             elif event.key==pygame.K_f:
@@ -61,7 +61,7 @@ class Level_Editor:
             
             if self.draw_thickness==1:
 
-                print("col:",col," row:",row)
+                #print("col:",col," row:",row)
 
                 self.map[col][row]=self.current_tile_index
 
@@ -87,13 +87,13 @@ class Level_Editor:
         self.map=[]
         for i in range(self.rows):
             self.map.append([0 for i in range(self.columns)])
-        print(self.map)
+        #print(self.map)
     
 
     def update_map(self):
         for layer_num in range(len(self.map)):
             for i in range(len(self.map[layer_num])):
-                print("i",i)
+                #print("i",i)
                 self.var.screen.blit(self.tiles[self.map[layer_num][i]],(layer_num*self.box_width+1,i*self.box_height+1))#self.available_colors[self.map[layer_num][i]]
         #self.box_width*=self.var.camera_zoom
         #self.box_height*=self.var.camera_zoom
